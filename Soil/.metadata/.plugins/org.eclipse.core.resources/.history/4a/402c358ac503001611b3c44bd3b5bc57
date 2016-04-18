@@ -1,0 +1,92 @@
+package treeSearch;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
+public class EliminationOfNoiseData {
+	ExcelReader excelReaderObj = new ExcelReader(
+			"E://Akash/java/Soil/FeatureExtract/LouhogonjFeatureExtractionClusterOutputV2.xlsx");
+	ArrayList<InputClass> totalInputFile = excelReaderObj.getInputClass();
+	Set<Integer> StoreIndices = new HashSet<Integer>();
+	ArrayList<ArrayList<Integer>> TotalInputFile = new ArrayList<ArrayList<Integer>>();
+	ArrayList<Integer> ClusterList = new ArrayList<Integer>();
+	private Integer MaximumNumOfCluster;
+
+	public EliminationOfNoiseData() {
+		setTotalInputFile();
+		//PrintList();
+		StoreEliminationIndices();
+		EliminationOfNoiseData();
+	}
+
+	public void setTotalInputFile() {
+		for (int row = 0; row < totalInputFile.size(); row++) {
+			ArrayList<Integer> Demo = new ArrayList<Integer>();
+			for (Map.Entry<String, Integer> itr : totalInputFile.get(row)
+					.getFeatures().entrySet()) {
+				Demo.add(itr.getValue());
+
+			}
+			ClusterList.add(totalInputFile.get(row).getClusterNumber());
+			TotalInputFile.add(Demo);
+		}
+		this.MaximumNumOfCluster = Collections.max(ClusterList);
+	}
+
+	public void PrintList() {
+		for (int i = 0; i < TotalInputFile.size(); i++) {
+			for (int j = 0; j < TotalInputFile.get(i).size(); j++) {
+				System.out.print(TotalInputFile.get(i).get(j) + " ");
+			}
+			System.out.print(ClusterList.get(i));
+			System.out.println();
+		}
+		System.out.println("Cluster Max: "+MaximumNumOfCluster);
+
+	}
+
+	public void StoreEliminationIndices() {
+		
+		for (int ClusterNumber = 1; ClusterNumber <= MaximumNumOfCluster; ClusterNumber++) {
+			int Counter = 0;
+			for (int Column = 0; Column < TotalInputFile.size(); Column++) {
+				for (int Row = 0; Row < TotalInputFile.get(Column).size(); Row++) {
+					if (ClusterList.get(Row) == ClusterNumber
+							&& TotalInputFile.get(Row).get(Column) == 1) {
+						Counter++;
+					}
+				}
+				float ColumnPercentage = ((float) (Counter) / TotalInputFile.size());
+				//System.out.println(ColumnPercentage+" ");
+				//System.out.println(TotalInputFile.size());
+				double ExpectedValue = (double) ((70*TotalInputFile.size())/100.00);
+						
+				if (Counter>=Math.floor(ExpectedValue)) {
+					System.out.println("Found");
+					for (int Row = 0; Row < TotalInputFile.get(Column).size(); Row++) {
+						if (ClusterList.get(Row) == ClusterNumber
+								&& TotalInputFile.get(Column).get(Row) == 0) {
+							StoreIndices.add(Row);
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	public void EliminationOfNoiseData(){
+		for(Integer value : StoreIndices){
+			System.out.println(value);
+		}
+		
+//		for(int i=0;i<totalInputFile.size();i++){
+//			totalInputFile.remove(StoreIndices.g);
+//			
+//		}
+		
+	}
+	
+}

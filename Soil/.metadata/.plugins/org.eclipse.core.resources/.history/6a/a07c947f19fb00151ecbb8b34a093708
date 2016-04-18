@@ -1,0 +1,146 @@
+package treeSearch;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Scanner;
+import java.util.Set;
+import java.util.Vector;
+
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+public class TreeSearch {
+	public static void main(String[] args) {
+		try {
+
+			double EPS = Math.pow(10.00, -2.00);
+			File excel = new File(
+					"E://Akash/java/Soil/FeatureExtract/LouhogonjFeatureExtractionClusterOutputV2.xlsx");
+			FileInputStream fis = new FileInputStream(excel);
+			XSSFWorkbook book = new XSSFWorkbook(fis);
+			XSSFSheet sheet = book.getSheetAt(0);
+			
+			ArrayList<ArrayList<Double>> objects = new ArrayList<ArrayList<Double>>();
+			Vector<Vector<Double>> cluster = new Vector<Vector<Double>>();
+			Vector<String> type = new Vector<String>();
+			ArrayList<String> area = new ArrayList<String>();
+			Vector<String> clus = new Vector<String>();
+
+			
+			Vector<Vector<Double>> obj = new Vector<Vector<Double>>();
+			Map<Set<Integer>,Vector<Vector<Double>> > map = new HashMap<Set<Integer>,Vector<Vector<Double>>>();
+			
+			
+			Iterator<Row> itr = sheet.iterator();
+
+			Scanner scanner = new Scanner(System.in);
+
+			Row row = itr.next();
+			Iterator<Cell> cellIterator = row.cellIterator();
+			Cell cell = cellIterator.next();
+
+			while (cellIterator.hasNext()) {
+
+				cell = cellIterator.next();
+				// System.out.println(cell.getStringCellValue());
+				type.add(cell.getStringCellValue());
+
+			}
+
+			for (int i = 0; i < type.size(); i++) {
+				System.out.println(i + " - > " + type.get(i));
+			}
+
+			while (itr.hasNext()) {
+				row = itr.next();
+				ArrayList<Double> allRowObj = new ArrayList<Double>();
+				if (!row.equals(null)) {
+					// Iterating over each column of Excel file
+					cellIterator = row.cellIterator();
+					cell = cellIterator.next();
+					area.add(cell.getStringCellValue());
+
+					// System.out.println(cell.getStringCellValue());
+					while (cellIterator.hasNext()) {
+
+						cell = cellIterator.next();
+						allRowObj.add(cell.getNumericCellValue());
+						
+
+					}
+					objects.add(allRowObj);
+					
+
+					//System.out.println(allRowObj);
+					 //allRowObj.clear();
+
+				}
+
+			}
+			
+			System.out.println(objects.get(objects.get(0).size()));
+			
+//			for(int vRow=0; vRow < objects.size(); vRow++){
+//				if(objects.get(objects.get(0).size())){
+//					
+//				}
+//				
+//			}
+			
+			
+			//Vector<Double>[][] perCluster= new Vector<Double>[10][10];
+			
+			
+//			for(int i=0;i<objects.size();i++){
+//				if(objects.get(i).lastElement()){
+//					
+//				}
+//			}
+//			
+//			ArrayList<Integer> objs = new ArrayList<Integer>();
+//
+//			Scanner scan = new Scanner(System.in);
+//			int clusterSize = scan.nextInt();
+//
+//			int[][] list = new int[clusterSize + 1][];
+//			
+//			for (int ClusterNum = 1; ClusterNum <= clusterSize; ClusterNum++) {
+//				for (int objectColumn = 0; objectColumn < objects.size(); objectColumn++) {
+//					for (int listColumn = 0; listColumn < list.length; listColumn++) {
+//							System.out.print("Execute");
+//						if (objects.get(list[ClusterNum][listColumn]).get(
+//								objectColumn) == 0) {
+//							for (int UpdateColumn = 0; UpdateColumn < list[ClusterNum].length; UpdateColumn++) {
+//								
+//								
+//								//objects.set(list[ClusterNum][UpdateColumn],).set(objectColumn, 0.0);
+//							}
+//
+//							break;
+//						}
+//					}
+//				}
+//			}
+//			
+			
+
+			System.out.println("output.");
+
+		} catch (FileNotFoundException fe) {
+			fe.printStackTrace();
+		} catch (IOException ie) {
+			ie.printStackTrace();
+		}
+
+	}
+
+}

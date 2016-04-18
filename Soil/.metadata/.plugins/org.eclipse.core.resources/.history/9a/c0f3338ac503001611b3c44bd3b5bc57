@@ -1,0 +1,20 @@
+package testClass;
+
+import treeSearch.EliminationOfNoiseData;
+import treeSearch.ExcelReader;
+import treeSearch.UpdateNewList;
+
+public class Test {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		ExcelReader test = new ExcelReader(
+				"E://Akash/java/Soil/FeatureExtract/LouhogonjFeatureExtractionClusterOutputV2.xlsx");
+		test.SetXSSFWorkBook();
+		//UpdateNewList a = new UpdateNewList();
+		//a.UpdateList();
+		EliminationOfNoiseData b = new EliminationOfNoiseData();
+		b.PrintList();
+		//b.StoreEliminationIndices();
+	}
+}
